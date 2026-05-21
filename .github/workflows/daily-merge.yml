@@ -1943,4 +1943,13 @@ jobs:
             --assignee "P-r-e-m-i-u-m" \
             --label "$LABEL"
 
-          gh pr merge --merge --delete-branch
+          for attempt in 1 2 3; do
+            if gh pr merge --merge --delete-branch; then
+              exit 0
+            fi
+
+            echo "Merge attempt $attempt failed; waiting before retry..."
+            sleep $((attempt * 10))
+          done
+
+          echo "::warning::Auto-merge did not complete. The pull request was left open for manual review."
