@@ -1,10 +1,13 @@
+const jwt = require("jsonwebtoken");
+const redis = require("../config/redis");
+
 const validateToken = async (token) => {
-  if (!token) throw new Error("No token provided");
-  const cacheKey = "auth:token:" + token;
-  const cached = await redis.get(cacheKey);
+  const cached = await redis.get("auth:" + token);
   if (cached) return JSON.parse(cached);
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  await redis.set(cacheKey, JSON.stringify(decoded), "EX", 3600, "NX");
+  await redis.setex("auth:" + token, 3600, JSON.stringify(decoded));
   return decoded;
-};  // Fixed race condition - Updated: 2026-06-29
-// build: 1782744439
+};
+
+module.exports = { validateToken };
+// updated: 2026-07-01 build: 1782906741
