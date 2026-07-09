@@ -39,6 +39,7 @@ flowchart LR
   Services --> GraphqlGW["GraphQL gateway"]
   Services --> ImageProcessing["Image processing"]
   Middleware --> Tracing["Distributed tracing"]
+  Actions --> CronScheduler["Cron scheduler"]
 ```
 
 ## Tech Stack
