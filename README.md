@@ -43,6 +43,7 @@ flowchart LR
   Services --> AuditLog["Audit logger"]
   Services --> PdfGenerator["PDF generator"]
   Postgres --> ReadReplica["Read replica"]
+  Services --> FileStorage["File storage"]
 ```
 
 ## Tech Stack
